@@ -1,4 +1,4 @@
-from typing import List, Literal, Optional, Type, Union
+from typing import Any, List, Literal, Optional, Type, Union
 
 from mmbn.gamedata.bn3 import bn3_chip_list, bn3_ncp_list
 from mmbn.gamedata.bn6 import bn6_chip_list, bn6_ncp_list
@@ -20,11 +20,11 @@ class GameInfo:
         self.game = game
 
     @property
-    def chip_list(self) -> Union[bn3_chip_list, bn6_chip_list]:
+    def chip_list(self) -> Any:
         return GAME_MODULES[self.game][0]
 
     @property
-    def ncp_list(self) -> Union[bn3_ncp_list, bn6_ncp_list]:
+    def ncp_list(self) -> Any:
         return GAME_MODULES[self.game][1]
 
     @property
