@@ -56,9 +56,15 @@ class TradeResponse(Serializable):
         self.image = image
 
     @property
-    def image(self) -> bytes:
-        return base64.b85decode(self._image)
+    def image(self) -> Optional[bytes]:
+        if self._image is None:
+            return None
+        else:
+            return base64.b85decode(self._image)
 
     @image.setter
-    def image(self, data: bytes) -> None:
-        self._image = base64.b85decode(data)
+    def image(self, data: Optional[bytes]) -> None:
+        if data is None:
+            self._image = None
+        else:
+            self._image = base64.b85encode(data)
