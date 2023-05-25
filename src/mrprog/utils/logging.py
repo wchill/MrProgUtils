@@ -12,7 +12,7 @@ def install_logger(host: str, username: str, password: str, logger_name: Optiona
     hostname = platform.node()
 
     logger = logging.getLogger(logger_name)
-    rabbit = RabbitMQHandler(
+    """rabbit = RabbitMQHandler(
         level=logging.DEBUG,
         host=host,
         username=username,
@@ -21,5 +21,5 @@ def install_logger(host: str, username: str, password: str, logger_name: Optiona
         exchange="log",
         declare_exchange=True,
         routing_key_formatter=lambda r: f"{hostname}.{r.name}.{r.levelname}",
-    )
+    )"""
     # logger.addHandler(rabbit)

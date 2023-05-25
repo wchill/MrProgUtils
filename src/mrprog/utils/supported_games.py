@@ -41,6 +41,9 @@ class GameInfo:
     def get_tradable_chip(self, chip_name: str, chip_code: Union[str, Code]) -> Optional[ChipT]:
         return self.chip_list.get_tradable_chip(chip_name, chip_code)
 
+    def get_illegal_chip(self, chip_name: str, chip_code: Union[str, Code]) -> Optional[ChipT]:
+        return self.chip_list.get_illegal_chip(chip_name, chip_code)
+
     @property
     def all_parts(self) -> List[NaviCustPart]:
         return self.ncp_list.ALL_PARTS
