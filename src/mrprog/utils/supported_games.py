@@ -1,3 +1,4 @@
+from functools import cached_property
 from typing import Any, List, Literal, Optional, Type, Union
 
 from mmbn.gamedata.bn3 import bn3_chip_list, bn3_ncp_list
@@ -32,6 +33,18 @@ class GameInfo:
     def all_chips(self) -> List[ChipT]:
         return self.chip_list.ALL_CHIPS
 
+    @property
+    def all_tradable_chips(self) -> List[ChipT]:
+        return self.chip_list.TRADABLE_CHIPS
+
+    @property
+    def all_illegal_chips(self) -> List[ChipT]:
+        return self.chip_list.ILLEGAL_CHIPS
+
+    @cached_property
+    def all_tradable_legal_chips(self) -> List[ChipT]:
+        return list(set(self.all_tradable_chips) - set(self.all_illegal_chips))
+
     def get_chips_by_name(self, chip_name: str) -> List[ChipT]:
         return self.chip_list.get_chips_by_name(chip_name)
 
@@ -47,6 +60,10 @@ class GameInfo:
     @property
     def all_parts(self) -> List[NaviCustPart]:
         return self.ncp_list.ALL_PARTS
+
+    @property
+    def all_tradable_parts(self) -> List[NaviCustPart]:
+        return self.ncp_list.TRADABLE_PARTS
 
     def get_part(self, part_name: str, part_color: Union[str, ColorT]) -> Optional[NaviCustPart]:
         return self.ncp_list.get_ncp(part_name, part_color)
