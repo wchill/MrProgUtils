@@ -21,7 +21,10 @@ async def get_git_versions() -> dict[str, str]:
 
     retval = {}
     for repo_name in GIT_REPOS:
-        git_version = (await run_shell("git describe --always", cwd=str(common_dir / repo_name))).strip()
-        retval[repo_name] = git_version
+        try:
+            git_version = (await run_shell("git describe --always", cwd=str(common_dir / repo_name))).strip()
+            retval[repo_name] = git_version
+        except FileNotFoundError:
+            pass
 
     return retval
