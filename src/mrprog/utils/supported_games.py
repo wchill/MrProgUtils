@@ -9,7 +9,7 @@ from mmbn.gamedata.navicust_part import ColorT, NaviCustPart
 
 SUPPORTED_GAMES = {"switch": [3, 6], "steam": [6]}
 SupportedGameLiteral = Literal[3, 6]
-SupportedPlatformLiteral = Literal["Switch"]
+SupportedPlatformLiteral = Literal["Switch", "Steam"]
 
 GAME_MODULES = {
     3: (bn3_chip_list, bn3_ncp_list, bn3_ncp_list.BN3NaviCustPartColor),
