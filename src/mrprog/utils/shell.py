@@ -12,18 +12,22 @@ async def run_shell(cmd: str, cwd: Optional[str] = None) -> str:
 
 
 async def get_git_versions() -> dict[str, str]:
-    path = pathlib.Path(__file__)
-    while not str(path).endswith("MrProgUtils"):
-        path = path.parent
+    try:
+        path = pathlib.Path(__file__)
+        while not str(path).endswith("MrProgUtils"):
+            path = path.parent
 
-    common_dir = path.parent
+        common_dir = path.parent
 
-    retval = {}
-    for repo_name in GIT_REPOS:
-        try:
-            git_version = (await run_shell("git describe --always", cwd=str(common_dir / repo_name))).strip()
-            retval[repo_name] = git_version
-        except FileNotFoundError:
-            pass
+        retval = {}
+        for repo_name in GIT_REPOS:
+            try:
+                git_version = (await run_shell("git describe --always", cwd=str(common_dir / repo_name))).strip()
+                retval[repo_name] = git_version
+            except FileNotFoundError:
+                pass
 
-    return retval
+        return retval
+    except NotImplementedError:
+        # Windows doesn't support running subprocess via asyncio
+        return {}
