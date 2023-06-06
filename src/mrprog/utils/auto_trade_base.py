@@ -4,7 +4,7 @@ import asyncio
 import logging
 import multiprocessing
 import time
-from abc import abstractmethod, ABC
+from abc import ABC, abstractmethod
 from queue import Queue
 from typing import (
     Any,
@@ -23,10 +23,11 @@ from mmbn.gamedata.bn3 import bn3_chip_list, bn3_ncp_list
 from mmbn.gamedata.bn6 import bn6_chip_list, bn6_ncp_list
 from mmbn.gamedata.chip import Chip, Sort
 from mmbn.gamedata.navicust_part import NaviCustPart
-from mrprog.utils.trade import TradeRequest, TradeResponse
 from nx.automation import image_processing
-from nx.automation.script import Script, MatchArgs
+from nx.automation.script import MatchArgs, Script
 from nx.controller import Button, Command, Controller, DPad
+
+from mrprog.utils.trade import TradeRequest, TradeResponse
 
 T = TypeVar("T")
 logger = logging.getLogger(__file__)
@@ -224,7 +225,6 @@ class AbstractAutoTrader(Script, ABC):
         cancel_lock.release()
         return False
 
-
     def handle_trade_failed(self) -> MatchArgs:
         async def handler() -> Tuple[int, Optional[str]]:
             await self.wait(1000)
@@ -254,9 +254,7 @@ class AbstractAutoTrader(Script, ABC):
     def handle_trade_complete(self) -> MatchArgs:
         async def handler() -> Tuple[int, Optional[str]]:
             await self.a(wait_time=1000)
-            if await self.wait_for_text(
-                    lambda ocr_text: ocr_text == "NETWORK", (55, 65), (225, 50), 10
-            ):
+            if await self.wait_for_text(lambda ocr_text: ocr_text == "NETWORK", (55, 65), (225, 50), 10):
                 logger.debug("Back at main menu")
                 await self.wait(2000)
                 return TradeResponse.SUCCESS, None
@@ -326,10 +324,7 @@ class AbstractAutoTrader(Script, ABC):
                     return TradeResult.Cancelled, "Trade cancelled by user."
                 """
 
-                result = await self.match(
-                    self.handle_guest_already_left(),
-                    self.handle_communication_error()
-                )
+                result = await self.match(self.handle_guest_already_left(), self.handle_communication_error())
                 if result is not None:
                     return result
 
@@ -356,7 +351,7 @@ class AbstractAutoTrader(Script, ABC):
                             self.handle_guest_already_left(),
                             self.handle_trade_failed(),
                             self.handle_trade_complete(),
-                            timeout=30
+                            timeout=30,
                         )
                     except TimeoutError:
                         return TradeResponse.CRITICAL_FAILURE, "Trade failed due to an unexpected state."
