@@ -1,9 +1,8 @@
 import asyncio
-import os
 import pathlib
 from typing import Optional
 
-GIT_REPOS = ["BattleNetworkAutomation", "BattleNetworkData", "MrProgDiscordBot", "MrProgSwitchWorker", "MrProgUtils"]
+GIT_REPOS = ["BattleNetworkAutomation", "BattleNetworkData", "MrProgDiscordBot", "MrProgWorker", "MrProgUtils"]
 
 
 async def run_shell(cmd: str, cwd: Optional[str] = None) -> str:
