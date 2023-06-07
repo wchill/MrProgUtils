@@ -65,6 +65,14 @@ class GameInfo:
     def all_tradable_parts(self) -> List[NaviCustPart]:
         return self.ncp_list.TRADABLE_PARTS
 
+    @property
+    def all_illegal_parts(self) -> List[NaviCustPart]:
+        return self.ncp_list.ILLEGAL_PARTS
+
+    @cached_property
+    def all_tradable_legal_parts(self) -> List[NaviCustPart]:
+        return list(set(self.all_tradable_parts) - set(self.all_illegal_parts))
+
     def get_part(self, part_name: str, part_color: Union[str, ColorT]) -> Optional[NaviCustPart]:
         return self.ncp_list.get_ncp(part_name, part_color)
 
