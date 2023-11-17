@@ -1,8 +1,17 @@
 import base64
+from enum import Enum
 from typing import Any, Optional
 
 from .serializable import Serializable
 from .types import TradeItem
+
+
+class TradeWorkerStatus(Enum):
+    OFFLINE = 0
+    DISABLED = 1
+    IDLE = 2
+    TRADING = 3
+    RESTARTING = 4
 
 
 class TradeRequest(Serializable):
