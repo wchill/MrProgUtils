@@ -5,7 +5,7 @@ from mmbn.gamedata.bn3 import bn3_chip_list, bn3_ncp_list
 from mmbn.gamedata.bn6 import bn6_chip_list, bn6_ncp_list
 from mmbn.gamedata.chip import Code
 from mmbn.gamedata.chip_list_utils import ChipT
-from mmbn.gamedata.navicust_part import ColorT, NaviCustPart
+from mmbn.gamedata.navicust_part import NaviCustColors, NaviCustPart
 
 SUPPORTED_GAMES = {"switch": [3, 6], "steam": [6]}
 SupportedGameLiteral = Literal[3, 6]
@@ -73,17 +73,17 @@ class GameInfo:
     def all_tradable_legal_parts(self) -> List[NaviCustPart]:
         return list(set(self.all_tradable_parts) - set(self.all_illegal_parts))
 
-    def get_part(self, part_name: str, part_color: Union[str, ColorT]) -> Optional[NaviCustPart]:
+    def get_part(self, part_name: str, part_color: Union[str, NaviCustColors]) -> Optional[NaviCustPart]:
         return self.ncp_list.get_ncp(part_name, part_color)
 
     def get_parts_by_name(self, part_name: str) -> List[NaviCustPart]:
         return self.ncp_list.get_parts_by_name(part_name)
 
-    def get_color(self, color_name: str) -> ColorT:
+    def get_color(self, color_name: str) -> NaviCustColors:
         color_name = color_name.lower().capitalize()
         return self.get_color_class()[color_name]
 
-    def get_color_class(self) -> Type[ColorT]:
+    def get_color_class(self) -> Type[NaviCustColors]:
         # noinspection PyTypeChecker
         return GAME_MODULES[self.game][2]
 

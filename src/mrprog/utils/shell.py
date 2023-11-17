@@ -36,5 +36,7 @@ async def get_git_versions() -> dict[str, str]:
             retval[repo_name] = git_version
         except FileNotFoundError:
             pass
+        except NotADirectoryError:
+            pass
 
     return retval
